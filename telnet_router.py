@@ -25,6 +25,8 @@ class TN_ROUTER:
         command = (command + ' \n').encode()
         self.tn.write(command)
 
+    def read_mark(self):
+        self.tn.read_until(TN_ROUTER.mark[self.status])
 
     def authen(self):
         """ Authen to Device line """
@@ -38,16 +40,16 @@ class TN_ROUTER:
 
     def disable_pause(self):
         """ Disable pause btw pages """
-        self.tn.read_until(TN_ROUTER.mark[self.status])
+        self.read_mark()
         self.write_command("terminal length 0")
 
     def show_version(self, filename):
         """ Show version of device and save as txt """
         print("show version . . .")
-        self.tn.read_until(TN_ROUTER.mark[self.status])
+        self.read_mark()
         self.write_command('show version')
         print("show version successful.")
-        version = self.tn.read_until(TN_ROUTER.mark[self.status]).decode('utf-8')
+        version = self.read_mark().decode('utf-8')
         print("saving text file . . .")
         if not filename:
             filename = "Version_%s.txt"%self.device
@@ -62,7 +64,7 @@ class TN_ROUTER:
 
     def enable(self):
         """ enable priv mode """
-        self.tn.read_until(TN_ROUTER.mark[self.status])
+        self.read_mark()
         self.write_command('enable')
         self.tn.read_until(b'Password: ')
         self.write_command(self.en_password)
@@ -74,7 +76,7 @@ class TN_ROUTER:
         if self.status != 'priv':
             print("Wrong mode.now change to priv . . .")
             self.enable()
-        self.tn.read_until(TN_ROUTER.mark[self.status])
+        self.read_mark()
         self.write_command('conf t')
         self.status = 'conf t'
         print('Now is config terminal mode.')
@@ -83,7 +85,7 @@ class TN_ROUTER:
         if self.status != 'conf t':
             print("Wrong mode. now change to configure terminal mode. . .")
             self.config_terminal()
-        self.tn.read_until(TN_ROUTER.mark[self.status])
+        self.read_mark()
         self.write_command("hostname %s "%new_name)
         print("hostname was changed to %s"%new_name)
 
@@ -95,7 +97,7 @@ class TN_ROUTER:
         if self.status != 'priv':
             print('Wrong mode. now change to privilege mode . . .')
             self.enable()
-        self.tn.read_until(TN_ROUTER.mark[self.status])
+        self.read_mark()
         self.write_command('show run')
         print("show running-config successful.")
         running_config = tn.read_until(TN_ROUTER.mark[self.status]).decode('utf-8')
@@ -106,7 +108,7 @@ class TN_ROUTER:
         print("saved.")
 
     def terminate(self):
-        self.tn.read_until(TN_ROUTER.mark[self.status])
+        self.read_mark()
         self.write_command('end')
         self.tn.read_all()
         print("Finished.")
