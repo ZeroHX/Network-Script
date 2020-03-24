@@ -1,7 +1,5 @@
 """Change the name of Routers and their password too"""
 import telnet_router
-"""Get Router Info"""
-import telnet_router
 import json
 def get_routers(filename):
     '''
