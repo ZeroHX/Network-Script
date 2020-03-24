@@ -19,6 +19,56 @@ class TN_ROUTER:
         print("Connecting to ", self.device)
         self.tn = telnetlib.Telnet(self.device)
         print("Connected.")
+        self.disable_pause()
+
+    def get_device_name(self):
+        """return name of this device as string"""
+        self.check_change_mode('priv')
+
+        self.read_mark()
+        print("show hostname by running config . . .")
+        self.write_command('show run | include hostname')
+        name = self.read_mark().decode('utf-8').replace('hostname ', '').split('\n')[0]
+        print(f"hostname is {name}") 
+        return name
+
+    def get_routing_table(self):
+        """ return routing table of this device ass string """
+        self.check_change_mode('priv')        
+        self.read_mark()
+        print("show ip route . . .")
+        self.write_command('show ip route')
+        table = self.read_mark().decode('utf-8').rstrip(TN_ROUTER.mark[self.status])
+        return table
+    
+    def get_router_spec(self):
+        """ return router specification as string"""
+        self.check_change_mode('priv')
+        print("show version . . .")
+        self.read_mark()
+        self.write_command('show version')
+        print("show version successful.")
+        version = self.read_mark().decode('utf-8').rstrip(TN_ROUTER.mark[self.status])
+        print(version)
+        return version
+
+    def get_router_interfaces(self):
+        """ return router interfaces """
+        self.check_change_mode('priv')
+        print("show ip interface brief . . .")
+        self.read_mark()
+        self.write_command('show ip int br')
+        interface = self.read_mark().decode('utf-8').rstrip(TN_ROUTER.mark[self.status])
+        return interface
+
+    def check_change_mode(self, mode):
+        """check and change to specificed mode"""
+        if self.status != mode:
+            print('Wrong mode.now change to %s . . .'%mode)
+            if mode == 'priv':
+                self.enable()
+            elif mode == 'conf t':
+                self.config_terminal()
 
     def write_command(self, command):
         """ encode and write the command """
@@ -26,7 +76,7 @@ class TN_ROUTER:
         self.tn.write(command)
 
     def read_mark(self):
-        self.tn.read_until(TN_ROUTER.mark[self.status])
+        self.tn.read_until(TN_ROUTER.mark[self.status]) 
 
     def authen(self):
         """ Authen to Device line """
@@ -45,11 +95,7 @@ class TN_ROUTER:
 
     def show_version(self, filename):
         """ Show version of device and save as txt """
-        print("show version . . .")
-        self.read_mark()
-        self.write_command('show version')
-        print("show version successful.")
-        version = self.read_mark().decode('utf-8')
+        version = self.get_router_spec()
         print("saving text file . . .")
         if not filename:
             filename = "Version_%s.txt"%self.device
@@ -73,30 +119,25 @@ class TN_ROUTER:
 
     def config_terminal(self):
         """ Enter config terminal mode """
-        if self.status != 'priv':
-            print("Wrong mode.now change to priv . . .")
-            self.enable()
+        self.check_change_mode('priv')
         self.read_mark()
         self.write_command('conf t')
         self.status = 'conf t'
         print('Now is config terminal mode.')
 
     def change_hostname(self, new_name):
-        if self.status != 'conf t':
-            print("Wrong mode. now change to configure terminal mode. . .")
+        self.check_change_mode('conf t')
             self.config_terminal()
         self.read_mark()
         self.write_command("hostname %s "%new_name)
         print("hostname was changed to %s"%new_name)
 
-
+    def change_password()
 
     def show_running(self, filename):
         """show running config and save as txt file"""
         print("show running . . .")
-        if self.status != 'priv':
-            print('Wrong mode. now change to privilege mode . . .')
-            self.enable()
+        self.check_change_mode('priv')
         self.read_mark()
         self.write_command('show run')
         print("show running-config successful.")
