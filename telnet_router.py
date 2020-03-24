@@ -1,5 +1,9 @@
 """
-Version 1.1
+Telnet Router Module Version 1.2
+Author: Pongpanit Aranratsopon, Jakkawan Intaratchaiyakij
+
+This module help you easier telnet and config routers via python script.
+There are many method of TN_ROUTER class those develop to use in PCN lab (IT-KMITL)
 """
 import getpass
 import telnetlib
