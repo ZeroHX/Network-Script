@@ -7,14 +7,14 @@ import telnetlib
 #Pre-config
 class TN_ROUTER:
 
-    mark = {"user":b'>', "priv":b'#', 'conf t':b'(config)#'}
+    mark = {"user":b'>', "priv":b'#', 'conf t':b'#'}
     def __init__(self, device, username, password, en_password):
         self.device = device
         self.username = username
         self.password = password
         self.en_password = en_password
         self.status = "user"
-
+        self.hostname = self.get_device_name()
         #Connect to device
         print("Connecting to ", self.device)
         self.tn = telnetlib.Telnet(self.device)
@@ -24,11 +24,10 @@ class TN_ROUTER:
     def get_device_name(self):
         """return name of this device as string"""
         self.check_change_mode('priv')
-
         self.read_mark()
         print("show hostname by running config . . .")
         self.write_command('show run | include hostname')
-        name = self.read_mark().decode('utf-8').replace('hostname ', '').split('\n')[0]
+        name = self.strip_mark(self.read_mark().decode('utf-8').replace('hostname ', ''))
         print(f"hostname is {name}") 
         return name
 
@@ -38,7 +37,7 @@ class TN_ROUTER:
         self.read_mark()
         print("show ip route . . .")
         self.write_command('show ip route')
-        table = self.read_mark().decode('utf-8').rstrip(TN_ROUTER.mark[self.status])
+        table = self.strip_mark(self.read_mark().decode('utf-8'))
         return table
     
     def get_router_spec(self):
@@ -48,18 +47,54 @@ class TN_ROUTER:
         self.read_mark()
         self.write_command('show version')
         print("show version successful.")
-        version = self.read_mark().decode('utf-8').rstrip(TN_ROUTER.mark[self.status])
+        version = self.strip_mark(self.read_mark().decode('utf-8'))
         print(version)
         return version
 
     def get_router_interfaces(self):
-        """ return router interfaces """
+        """ 
+        return router interfaces as list of dict
+        [
+            {
+            'Interface':'GigabitEthernet0/0/0', 
+            'IP-Address':'127.0.0.1', 
+            'OK?':'Yes',
+            'Method':'unset',
+            'Status':'up',
+            'Protocol':'up'
+            }, ...
+        ]
+        """
         self.check_change_mode('priv')
         print("show ip interface brief . . .")
         self.read_mark()
         self.write_command('show ip int br')
-        interface = self.read_mark().decode('utf-8').rstrip(TN_ROUTER.mark[self.status])
-        return interface
+        interfaces = self.strip_mark(self.read_mark().decode('utf-8')).split('\n')
+        col_name = interfaces[0].split()
+        data = [row.split() for row in interfaces[1::]]
+        interfaces_list = [{col_name[col_no]:data[row_no][col_no] for col_no in range(len(col_name))}\
+             for row_no in range(len(data))]
+
+        return interfaces_list
+    
+    def get_connected_network(self):
+        """
+        return list of neighbour network as list of dict
+        [
+            {
+                'network_address':'10.0.0.0',
+                'subnet_mask': 24
+            }, ...
+        ]
+        """
+        self.read_mark()
+        self.check_change_mode('priv')
+        self.write_command('show ip route | include C')
+        connected = self.strip_mark(self.read_mark()).split('\n')
+        connected.pop(0)
+        network_list = [{'network_address':line.split()[1].split('/')[0], \
+            'subnet_mask':int(line.split()[1].split('/')[1])} for line in connected]
+        return network_list
 
     def check_change_mode(self, mode):
         """check and change to specificed mode"""
@@ -69,6 +104,10 @@ class TN_ROUTER:
                 self.enable()
             elif mode == 'conf t':
                 self.config_terminal()
+
+    def strip_mark(self, message):
+        """strip string with hostname and mark"""
+        return message.rstrip(self.get_device_name() + TN_ROUTER.mark[self.status])
 
     def write_command(self, command):
         """ encode and write the command """
@@ -127,12 +166,22 @@ class TN_ROUTER:
 
     def change_hostname(self, new_name):
         self.check_change_mode('conf t')
-            self.config_terminal()
+        self.config_terminal()
         self.read_mark()
         self.write_command("hostname %s "%new_name)
         print("hostname was changed to %s"%new_name)
+        self.hostname = self.get_device_name()
 
-    def change_password()
+    def change_password(self, new_pass):
+        self.check_change_mode('conf t')
+        self.config_terminal()
+        self.read_mark()
+        self.write_command("line vty 0")
+        self.read_mark()
+        self.write_command("password %s"%new_pass)
+        self.read_mark()
+        self.write_command("exit")
+        print("password was changed to %s"%new_pass)
 
     def show_running(self, filename):
         """show running config and save as txt file"""
@@ -153,5 +202,4 @@ class TN_ROUTER:
         self.write_command('end')
         self.tn.read_all()
         print("Finished.")
-        return
 

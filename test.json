@@ -1,0 +1,14 @@
+[
+    {
+        "device":"127.0.0.1", 
+        "username":"MarinePA", 
+        "password":"cisco", 
+        "en_password":"class"
+    },
+{
+        "device":"127.0.0.2", 
+        "username":"MarineP2", 
+        "password":"cisc2", 
+        "en_password":"clas2"
+    }
+]
