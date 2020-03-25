@@ -18,11 +18,12 @@ def get_routers(filename):
     print("Addresses :" + str(add_list))
     routers = [telnet_router.TN_ROUTER(router['device'], router['username'], \
          router['password'], router['en_password']) for router in add_list]
+    
     return routers
 
 def get_routers_info():
     """get all router info and save into file"""
-    routers = get_routers('xxx.json')
+    routers = get_routers('routers.json')
     routers_info_list = [\
         {'name':router.get_device_name(), 'spec':router.get_router_spec(), \
             'interface':router.get_router_interfaces(), 'routing table':router.get_routing_table()} \
@@ -31,7 +32,7 @@ def get_routers_info():
     for router_info in routers_info_list:
         data += router_info['name'] + '\n====Specification====\n'
         data += router_info['spec'] + '\n====Interfaces====\n'
-        data += '\n'.join([''.join([str(k) + ": " + interfaces[k]]) + '\n' \
+        data += '\n'.join([''.join([str(k) + ": " + interface[k] for k in interface]) + '\n' \
             for interface in router_info['interface']]) + '\n====Routing Table====\n'
         data += router_info['routing table'] + '\n'
     
@@ -40,3 +41,4 @@ def get_routers_info():
     
 
 get_routers_info()
+# print(get_routers('routers.json'))

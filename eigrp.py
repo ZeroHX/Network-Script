@@ -1,5 +1,8 @@
 import telnet_router
 
-router_1 = telnet_router.TN_ROUTER('10.30.7.1', '', 'cisco', 'class')
+# router_1 = telnet_router.TN_ROUTER('10.30.7.1', '', 'cisco', 'class')
+# router_1 = telnet_router.TN_ROUTER('100.1.12.2', '', 'cisco', 'class')
+router_1 = telnet_router.TN_ROUTER('100.1.56.5', '', 'cisco', 'class')
+
 router_1.eigrp_config()
 router_1.terminate()

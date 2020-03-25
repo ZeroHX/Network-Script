@@ -58,7 +58,7 @@ class TN_ROUTER:
         self.write_command('show version')
         print("show version successful.")
         version = self.strip_mark(self.read_mark().decode('utf-8'))
-        print(version)
+        # print(version)
         self.write_command('')
         return version
 
@@ -85,7 +85,7 @@ class TN_ROUTER:
         data = [row.split() for row in interfaces[1::]]
         interfaces_list = [{col_name[col_no]:data[row_no][col_no] for col_no in range(len(col_name))}\
              for row_no in range(len(data))]
-
+        self.write_command()
         return interfaces_list
     
     def get_connected_network(self):
@@ -102,9 +102,9 @@ class TN_ROUTER:
         self.check_change_mode('priv')
         self.write_command('show ip route | include C')
         connected = self.strip_mark(self.read_mark().decode()).split('\n')
-        print(connected)
+        # print(connected)
         connected = connected[2::]
-        print(connected)
+        # print(connected)
 
         network_list = [{'network_address':line.split()[1].split('/')[0], \
             'subnet_mask':int(line.split()[1].split('/')[1])} for line in connected]
@@ -141,13 +141,13 @@ class TN_ROUTER:
     def write_command(self, command = ''):
         """ encode and write the command """
         command = (command + '\n').encode()
-        print(command)
+        # print(command)
         self.tn.write(command)
 
     def read_mark(self):
-        print('read mark %s'%TN_ROUTER.mark[self.status])
+        # print('read mark %s'%TN_ROUTER.mark[self.status])
         return self.tn.read_until(TN_ROUTER.mark[self.status]) 
-        print('read.')
+        # print('read.')
     def authen(self):
         """ Authen to Device line """
         if self.username:
@@ -162,7 +162,7 @@ class TN_ROUTER:
     def disable_pause(self):
         """ Disable pause btw pages """
         self.read_mark()
-        print("read mark ???")
+        # print("read mark ???")
         self.write_command("terminal length 0")
         print("Disable pause successful.")
 
