@@ -21,9 +21,12 @@ class TN_ROUTER:
         #Connect to device
         print("Connecting to ", self.device)
         self.tn = telnetlib.Telnet(self.device)
+
         print("Connected.")
+        self.authen()
         self.disable_pause()
         self.hostname = self.get_device_name()
+        print(self.hostname)
 
 
     def get_device_name(self):
@@ -32,8 +35,9 @@ class TN_ROUTER:
         self.read_mark()
         print("show hostname by running config . . .")
         self.write_command('show run | include hostname')
-        name = self.strip_mark(self.read_mark().decode('utf-8').replace('hostname ', ''))
-        print(f"hostname is {name}") 
+        name = self.read_mark().decode('utf-8')
+        print("hostname is", name) 
+        self.write_command('')
         return name
 
     def get_routing_table(self):
@@ -50,10 +54,12 @@ class TN_ROUTER:
         self.check_change_mode('priv')
         print("show version . . .")
         self.read_mark()
+        # self.tn.read_until(b'#')
         self.write_command('show version')
         print("show version successful.")
         version = self.strip_mark(self.read_mark().decode('utf-8'))
         print(version)
+        self.write_command('')
         return version
 
     def get_router_interfaces(self):
@@ -95,11 +101,29 @@ class TN_ROUTER:
         self.read_mark()
         self.check_change_mode('priv')
         self.write_command('show ip route | include C')
-        connected = self.strip_mark(self.read_mark()).split('\n')
-        connected.pop(0)
+        connected = self.strip_mark(self.read_mark().decode()).split('\n')
+        print(connected)
+        connected = connected[2::]
+        print(connected)
+
         network_list = [{'network_address':line.split()[1].split('/')[0], \
             'subnet_mask':int(line.split()[1].split('/')[1])} for line in connected]
+        self.write_command()
+        # with open('t.json', 'w') as j:
+        #     j.write(str(network_list).replace("'", '"'))
         return network_list
+
+    def eigrp_config(self):
+        """eigrp_setting"""
+        connected_list = self.get_connected_network()
+        self.check_change_mode('conf t')
+        self.read_mark()
+        self.write_command('router eigrp 1')
+        self.write_command('no auto-summary')
+        for network in connected_list:
+            self.read_mark()
+            self.write_command("network %s 0.0.0.255"%network["network_address"])
+        self.write_command("end")
 
     def check_change_mode(self, mode):
         """check and change to specificed mode"""
@@ -112,31 +136,35 @@ class TN_ROUTER:
 
     def strip_mark(self, message):
         """strip string with hostname and mark"""
-        return message.rstrip(self.get_device_name() + TN_ROUTER.mark[self.status])
+        return message.rstrip(self.hostname + TN_ROUTER.mark[self.status].decode())
 
-    def write_command(self, command):
+    def write_command(self, command = ''):
         """ encode and write the command """
-        command = (command + ' \n').encode()
+        command = (command + '\n').encode()
+        print(command)
         self.tn.write(command)
 
     def read_mark(self):
-        self.tn.read_until(TN_ROUTER.mark[self.status]) 
-
+        print('read mark %s'%TN_ROUTER.mark[self.status])
+        return self.tn.read_until(TN_ROUTER.mark[self.status]) 
+        print('read.')
     def authen(self):
         """ Authen to Device line """
         if self.username:
             self.tn.read_until(b'Username: ')
             self.write_command(self.username)
         if self.password:
-            self.tn.read_until('Password: ')
+            self.tn.read_until(b'Password: ')
             self.write_command(self.password)
+        print("Authentation successful.")
             # tn.write(password.encode('ascii') + b'\n')
 
     def disable_pause(self):
         """ Disable pause btw pages """
         self.read_mark()
+        print("read mark ???")
         self.write_command("terminal length 0")
-        print('terminal length 0')
+        print("Disable pause successful.")
 
     def show_version(self, filename):
         """ Show version of device and save as txt """
@@ -205,7 +233,7 @@ class TN_ROUTER:
 
     def terminate(self):
         self.read_mark()
-        self.write_command('end')
+        self.write_command('exit')
         self.tn.read_all()
         print("Finished.")
 
