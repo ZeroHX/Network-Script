@@ -136,6 +136,7 @@ class TN_ROUTER:
         """ Disable pause btw pages """
         self.read_mark()
         self.write_command("terminal length 0")
+        print('terminal length 0')
 
     def show_version(self, filename):
         """ Show version of device and save as txt """
