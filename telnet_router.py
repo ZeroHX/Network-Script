@@ -18,12 +18,13 @@ class TN_ROUTER:
         self.password = password
         self.en_password = en_password
         self.status = "user"
-        self.hostname = self.get_device_name()
         #Connect to device
         print("Connecting to ", self.device)
         self.tn = telnetlib.Telnet(self.device)
         print("Connected.")
         self.disable_pause()
+        self.hostname = self.get_device_name()
+
 
     def get_device_name(self):
         """return name of this device as string"""
