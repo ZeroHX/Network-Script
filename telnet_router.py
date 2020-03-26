@@ -81,8 +81,9 @@ class TN_ROUTER:
         self.read_mark()
         self.write_command('show ip int br')
         interfaces = self.strip_mark(self.read_mark().decode('utf-8')).split('\n')
-        col_name = interfaces[0].split()
-        data = [row.split() for row in interfaces[1::]]
+        print(*interfaces, sep='\n')
+        col_name = interfaces[1].split()
+        data = [row.split() for row in interfaces[2:-1:]]
         interfaces_list = [{col_name[col_no]:data[row_no][col_no] for col_no in range(len(col_name))}\
              for row_no in range(len(data))]
         self.write_command()
@@ -113,14 +114,18 @@ class TN_ROUTER:
         #     j.write(str(network_list).replace("'", '"'))
         return network_list
 
-    def adjust_delay(target_int, delay):
+    def adjust_delay(self, target_int, delay, cancel = False):
         """set router interface delay"""
         print("Adjust delay. . .")
         self.check_change_mode("conf t")
         self.read_mark()
         self.write_command("int %s" % target_int)
         self.read_mark()
-        self.write_command("delay %d" % delay)
+        if cancel:
+            self.write_command("no delay")
+        else:
+            self.write_command("delay %d" % delay)
+        # print(self.read_mark().decode())
         print("Set router interface %s delay to %d."%(target_int, delay))
 
     def eigrp_config(self):
@@ -262,6 +267,9 @@ class TN_ROUTER:
         print("saved.")
 
     def terminate(self):
+        # if self.status == 'conf t':
+        self.read_mark()
+        self.write_command('end')
         self.read_mark()
         self.write_command('exit')
         self.tn.read_all()

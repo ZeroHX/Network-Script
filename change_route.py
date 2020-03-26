@@ -17,6 +17,7 @@ import telnet_router
 
 def change_route(source, destination, cancel=False):
     """change route of source to destination to opposite route"""
+    print(source, destination)
     with open('PCs.json', 'r') as json_file:
         pc_hosts = json.loads(json_file.read())
     
@@ -24,41 +25,46 @@ def change_route(source, destination, cancel=False):
     des_gw = pc_hosts[destination]
     src_gw_rt = int(src_gw.split(".")[2])
     des_gw_rt = int(des_gw.split(".")[2])
-    with open('routers.json', 'r') as json_file:
-        routers_info = json.loads(json_file.read())[src_gw_rt - 1]
-
+    with open('routers.json', 'r') as js_file:
+        routers_info = json.loads(js_file.read())[src_gw_rt - 1]
+    print(routers_info)
     direction_map = "XCCUAA"[7-src_gw_rt:] + "XCCUAA"[:7-src_gw_rt]
     route_direction = direction_map[des_gw_rt - 1]
+    print("direction", route_direction)
     if route_direction == 'C':
-        third_oct = ''.join(sorted(["612345"[src_gw_rt], "612345"[(src_gw_rt+1)%6]]))
+        third_oct = ''.join(sorted(["612345"[src_gw_rt%6], "612345"[(src_gw_rt+1)%6]]))
     elif route_direction == 'A':
-        third_oct = ''.join(sorted(["612345"[src_gw_rt], "612345"[(src_gw_rt-1)%6]]))
-
-    target_int_ip = ".".join(src_gw.split()[:2] + [str(third_oct)] + [str(src_gw_rt)])
-    router = telnet_router.TN_ROUTER(routers_info["Device"], routers_info["username"], \
+        third_oct = ''.join(sorted(["612345"[src_gw_rt%6], "612345"[(src_gw_rt-1)%6]]))
+    print("third_oct", third_oct)
+    # print()
+    target_int_ip = ".".join(src_gw.split(".")[:2] + [str(third_oct)] + [str(src_gw_rt)])
+    router = telnet_router.TN_ROUTER(routers_info["device"], routers_info["username"], \
         routers_info["password"], routers_info["en_password"])
     target_int = find_int_from_ip(target_int_ip, router)
-    if cancel:
-        delay = 0
-    else:
-        delay = 100000
-    router.adjust_delay(target_int, delay)
+    print(target_int_ip)
+    print(target_int)
+    router.adjust_delay(target_int, 1000000, cancel)
+    router.terminate()
 
 def find_int_from_ip(target, router):
     """find int from ip"""
-    int_list = router.get_router_interfaces(routers_info)
+    int_list = router.get_router_interfaces()
+    print(int_list)
     for interface in int_list:
         if interface['IP-Address'] == target:
             return interface['Interface']
 
 
-change_route("A", "A'")
-change_route("A", "A''")
-change_route("A''", "A")
-change_route("B", "B'")
-change_route("B", "B''")
-change_route("B''", "B")
+def opposite_way(cancel = False):
+    """change paths to opposite route"""
+    change_route("A", "A'", cancel)
+    change_route("A'", "A''",  cancel)
+    change_route("A''", "A",  cancel)
+    change_route("B", "B'",  cancel)
+    change_route("B'", "B''",  cancel)
+    change_route("B''", "B",  cancel)
 
+opposite_way(True)
     
 
 
