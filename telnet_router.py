@@ -113,6 +113,16 @@ class TN_ROUTER:
         #     j.write(str(network_list).replace("'", '"'))
         return network_list
 
+    def adjust_delay(target_int, delay):
+        """set router interface delay"""
+        print("Adjust delay. . .")
+        self.check_change_mode("conf t")
+        self.read_mark()
+        self.write_command("int %s" % target_int)
+        self.read_mark()
+        self.write_command("delay %d" % delay)
+        print("Set router interface %s delay to %d."%(target_int, delay))
+
     def eigrp_config(self):
         """eigrp_setting"""
         connected_list = self.get_connected_network()
@@ -222,6 +232,20 @@ class TN_ROUTER:
         self.read_mark()
         self.write_command("exit")
         print("password was changed to %s"%new_pass)
+
+    def show_running(self, filename):
+        """show running config and save as txt file"""
+        print("show running . . .")
+        self.check_change_mode('priv')
+        self.read_mark()
+        self.write_command('show run')
+        print("show running-config successful.")
+        running_config = tn.read_until(TN_ROUTER.mark[self.status]).decode('utf-8')
+        print("saving text file . . .")
+        if not filename:
+            filename = "RunningConfig_%s.txt"%self.device
+        TN_ROUTER.save_as_txt(running_config, filename)
+        print("saved.")
 
     def show_running(self, filename):
         """show running config and save as txt file"""
