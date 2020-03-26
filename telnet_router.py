@@ -35,7 +35,7 @@ class TN_ROUTER:
         self.read_mark()
         print("show hostname by running config . . .")
         self.write_command('show run | include hostname')
-        name = self.read_mark().decode('utf-8')
+        name = self.read_mark().decode('utf-8').split('\n')[-1][:-1]
         print("hostname is", name) 
         self.write_command('')
         return name
@@ -130,7 +130,12 @@ class TN_ROUTER:
         if self.status != mode:
             print('Wrong mode.now change to %s . . .'%mode)
             if mode == 'priv':
-                self.enable()
+                if self.status == 'conf t':
+                    self.read_mark()
+                    self.write_command('exit')
+                    self.status = 'priv'
+                else:
+                    self.enable()
             elif mode == 'conf t':
                 self.config_terminal()
 
@@ -183,6 +188,7 @@ class TN_ROUTER:
 
     def enable(self):
         """ enable priv mode """
+
         self.read_mark()
         self.write_command('enable')
         self.tn.read_until(b'Password: ')
@@ -204,13 +210,13 @@ class TN_ROUTER:
         self.read_mark()
         self.write_command("hostname %s "%new_name)
         print("hostname was changed to %s"%new_name)
-        self.hostname = self.get_device_name()
+        self.hostname = new_name
 
     def change_password(self, new_pass):
         self.check_change_mode('conf t')
-        self.config_terminal()
+        # self.config_terminal()
         self.read_mark()
-        self.write_command("line vty 0")
+        self.write_command("line vty 0 924")
         self.read_mark()
         self.write_command("password %s"%new_pass)
         self.read_mark()

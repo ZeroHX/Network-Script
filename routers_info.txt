@@ -1,0 +1,554 @@
+show run | include hostname
+hostname R1
+R1#
+====Specification====
+show version
+Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.7(3)M3, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Wed 01-Aug-18 16:45 by prod_rel_team
+
+
+ROM: Bootstrap program is IOSv
+
+R1 uptime is 1 hour, 46 minutes
+System returned to ROM by reload
+System image file is "flash0:/vios-adventerprisek9-m"
+Last reload reason: Unknown reason
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco IOSv (revision 1.0) with  with 460017K/62464K bytes of memory.
+Processor board ID 96IQ5CIIKATP9UUW8FOG4
+4 Gigabit Ethernet interfaces
+DRAM configuration is 72 bits wide with parity disabled.
+256K bytes of non-volatile configuration memory.
+2097152K bytes of ATA System CompactFlash 0 (Read/Write)
+0K bytes of ATA CompactFlash 1 (Read/Write)
+1024K bytes of ATA CompactFlash 2 (Read/Write)
+0K bytes of ATA CompactFlash 3 (Read/Write)
+
+
+
+Configuration register is 0x0
+====Interfaces====
+show: Interfaceip: IP-Addressint: OK?br: Method
+
+show: GigabitEthernet0/0ip: 100.1.1.1int: YESbr: manual
+
+show: GigabitEthernet0/1ip: 100.1.12.1int: YESbr: manual
+
+show: GigabitEthernet0/2ip: 100.1.16.1int: YESbr: manual
+
+show: GigabitEthernet0/3ip: 10.30.7.1int: YESbr: manual
+
+====Routing Table====
+show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is not set
+
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.30.7.0/24 is directly connected, GigabitEthernet0/3
+L        10.30.7.1/32 is directly connected, GigabitEthernet0/3
+      100.0.0.0/8 is variably subnetted, 15 subnets, 2 masks
+C        100.1.1.0/24 is directly connected, GigabitEthernet0/0
+L        100.1.1.1/32 is directly connected, GigabitEthernet0/0
+D        100.1.2.0/24 [90/3072] via 100.1.12.2, 00:59:38, GigabitEthernet0/1
+D        100.1.3.0/24 [90/3328] via 100.1.12.2, 01:04:54, GigabitEthernet0/1
+D        100.1.4.0/24 [90/3584] via 100.1.16.6, 00:44:58, GigabitEthernet0/2
+                      [90/3584] via 100.1.12.2, 00:44:58, GigabitEthernet0/1
+D        100.1.5.0/24 [90/3328] via 100.1.16.6, 00:45:13, GigabitEthernet0/2
+D        100.1.6.0/24 [90/3072] via 100.1.16.6, 00:48:49, GigabitEthernet0/2
+C        100.1.12.0/24 is directly connected, GigabitEthernet0/1
+L        100.1.12.1/32 is directly connected, GigabitEthernet0/1
+C        100.1.16.0/24 is directly connected, GigabitEthernet0/2
+L        100.1.16.1/32 is directly connected, GigabitEthernet0/2
+D        100.1.23.0/24 [90/3072] via 100.1.12.2, 01:22:34, GigabitEthernet0/1
+D        100.1.34.0/24 [90/3328] via 100.1.12.2, 00:44:58, GigabitEthernet0/1
+D        100.1.45.0/24 [90/3328] via 100.1.16.6, 00:45:00, GigabitEthernet0/2
+D        100.1.56.0/24 [90/3072] via 100.1.16.6, 00:48:34, GigabitEthernet0/2
+show run | include hostname
+hostname R2
+R2#
+====Specification====
+show version
+Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.7(3)M3, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Wed 01-Aug-18 16:45 by prod_rel_team
+
+
+ROM: Bootstrap program is IOSv
+
+R2 uptime is 1 hour, 23 minutes
+System returned to ROM by reload
+System image file is "flash0:/vios-adventerprisek9-m"
+Last reload reason: Unknown reason
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco IOSv (revision 1.0) with  with 460017K/62464K bytes of memory.
+Processor board ID 9XFS5NB2YU18O9HAM6N1K
+4 Gigabit Ethernet interfaces
+DRAM configuration is 72 bits wide with parity disabled.
+256K bytes of non-volatile configuration memory.
+2097152K bytes of ATA System CompactFlash 0 (Read/Write)
+0K bytes of ATA CompactFlash 1 (Read/Write)
+1024K bytes of ATA CompactFlash 2 (Read/Write)
+0K bytes of ATA CompactFlash 3 (Read/Write)
+
+
+
+Configuration register is 0x0
+====Interfaces====
+show: Interfaceip: IP-Addressint: OK?br: Method
+
+show: GigabitEthernet0/0ip: 100.1.2.1int: YESbr: manual
+
+show: GigabitEthernet0/1ip: 100.1.12.2int: YESbr: NVRAM
+
+show: GigabitEthernet0/2ip: 100.1.23.2int: YESbr: NVRAM
+
+show: GigabitEthernet0/3ip: unassignedint: YESbr: NVRAM
+
+====Routing Table====
+show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is not set
+
+      10.0.0.0/24 is subnetted, 1 subnets
+D        10.30.7.0 [90/3072] via 100.1.12.1, 01:22:31, GigabitEthernet0/1
+      100.0.0.0/8 is variably subnetted, 15 subnets, 2 masks
+D        100.1.1.0/24 [90/3072] via 100.1.12.1, 01:10:01, GigabitEthernet0/1
+C        100.1.2.0/24 is directly connected, GigabitEthernet0/0
+L        100.1.2.1/32 is directly connected, GigabitEthernet0/0
+D        100.1.3.0/24 [90/3072] via 100.1.23.3, 01:04:53, GigabitEthernet0/2
+D        100.1.4.0/24 [90/3328] via 100.1.23.3, 01:02:20, GigabitEthernet0/2
+D        100.1.5.0/24 [90/3584] via 100.1.23.3, 00:44:54, GigabitEthernet0/2
+                      [90/3584] via 100.1.12.1, 00:44:54, GigabitEthernet0/1
+D        100.1.6.0/24 [90/3328] via 100.1.12.1, 00:48:49, GigabitEthernet0/1
+C        100.1.12.0/24 is directly connected, GigabitEthernet0/1
+L        100.1.12.2/32 is directly connected, GigabitEthernet0/1
+D        100.1.16.0/24 [90/3072] via 100.1.12.1, 01:22:31, GigabitEthernet0/1
+C        100.1.23.0/24 is directly connected, GigabitEthernet0/2
+L        100.1.23.2/32 is directly connected, GigabitEthernet0/2
+D        100.1.34.0/24 [90/3072] via 100.1.23.3, 01:06:09, GigabitEthernet0/2
+D        100.1.45.0/24 [90/3328] via 100.1.23.3, 00:45:01, GigabitEthernet0/2
+D        100.1.56.0/24 [90/3328] via 100.1.12.1, 00:44:54, GigabitEthernet0/1
+show run | include hostname
+hostname R3
+R3#
+====Specification====
+show version
+Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.7(3)M3, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Wed 01-Aug-18 16:45 by prod_rel_team
+
+
+ROM: Bootstrap program is IOSv
+
+R3 uptime is 1 hour, 46 minutes
+System returned to ROM by reload
+System image file is "flash0:/vios-adventerprisek9-m"
+Last reload reason: Unknown reason
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco IOSv (revision 1.0) with  with 460017K/62464K bytes of memory.
+Processor board ID 9SN4S4OWM3K0E0D4IJ37U
+4 Gigabit Ethernet interfaces
+DRAM configuration is 72 bits wide with parity disabled.
+256K bytes of non-volatile configuration memory.
+2097152K bytes of ATA System CompactFlash 0 (Read/Write)
+0K bytes of ATA CompactFlash 1 (Read/Write)
+1024K bytes of ATA CompactFlash 2 (Read/Write)
+0K bytes of ATA CompactFlash 3 (Read/Write)
+
+
+
+Configuration register is 0x0
+====Interfaces====
+show: Interfaceip: IP-Addressint: OK?br: Method
+
+show: GigabitEthernet0/0ip: 100.1.3.1int: YESbr: manual
+
+show: GigabitEthernet0/1ip: 100.1.34.3int: YESbr: manual
+
+show: GigabitEthernet0/2ip: 100.1.23.3int: YESbr: manual
+
+show: GigabitEthernet0/3ip: unassignedint: YESbr: unset
+
+====Routing Table====
+show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is not set
+
+      10.0.0.0/24 is subnetted, 1 subnets
+D        10.30.7.0 [90/3328] via 100.1.23.2, 01:06:24, GigabitEthernet0/2
+      100.0.0.0/8 is variably subnetted, 15 subnets, 2 masks
+D        100.1.1.0/24 [90/3328] via 100.1.23.2, 01:06:24, GigabitEthernet0/2
+D        100.1.2.0/24 [90/3072] via 100.1.23.2, 00:59:49, GigabitEthernet0/2
+C        100.1.3.0/24 is directly connected, GigabitEthernet0/0
+L        100.1.3.1/32 is directly connected, GigabitEthernet0/0
+D        100.1.4.0/24 [90/3072] via 100.1.34.4, 01:02:31, GigabitEthernet0/1
+D        100.1.5.0/24 [90/3328] via 100.1.34.4, 00:45:04, GigabitEthernet0/1
+D        100.1.6.0/24 [90/3584] via 100.1.34.4, 00:45:04, GigabitEthernet0/1
+                      [90/3584] via 100.1.23.2, 00:45:04, GigabitEthernet0/2
+D        100.1.12.0/24 [90/3072] via 100.1.23.2, 01:06:24, GigabitEthernet0/2
+D        100.1.16.0/24 [90/3328] via 100.1.23.2, 00:45:04, GigabitEthernet0/2
+C        100.1.23.0/24 is directly connected, GigabitEthernet0/2
+L        100.1.23.3/32 is directly connected, GigabitEthernet0/2
+C        100.1.34.0/24 is directly connected, GigabitEthernet0/1
+L        100.1.34.3/32 is directly connected, GigabitEthernet0/1
+D        100.1.45.0/24 [90/3072] via 100.1.34.4, 01:32:30, GigabitEthernet0/1
+D        100.1.56.0/24 [90/3328] via 100.1.34.4, 00:45:04, GigabitEthernet0/1
+show run | include hostname
+hostname R4
+R4#
+====Specification====
+show version
+Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.7(3)M3, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Wed 01-Aug-18 16:45 by prod_rel_team
+
+
+ROM: Bootstrap program is IOSv
+
+R4 uptime is 1 hour, 46 minutes
+System returned to ROM by reload
+System image file is "flash0:/vios-adventerprisek9-m"
+Last reload reason: Unknown reason
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco IOSv (revision 1.0) with  with 460017K/62464K bytes of memory.
+Processor board ID 9ZOWLOW0E7KMUBSSGIC2F
+4 Gigabit Ethernet interfaces
+DRAM configuration is 72 bits wide with parity disabled.
+256K bytes of non-volatile configuration memory.
+2097152K bytes of ATA System CompactFlash 0 (Read/Write)
+0K bytes of ATA CompactFlash 1 (Read/Write)
+1024K bytes of ATA CompactFlash 2 (Read/Write)
+0K bytes of ATA CompactFlash 3 (Read/Write)
+
+
+
+Configuration register is 0x0
+====Interfaces====
+show: Interfaceip: IP-Addressint: OK?br: Method
+
+show: GigabitEthernet0/0ip: 100.1.4.1int: YESbr: manual
+
+show: GigabitEthernet0/1ip: 100.1.34.4int: YESbr: manual
+
+show: GigabitEthernet0/2ip: 100.1.45.4int: YESbr: manual
+
+show: GigabitEthernet0/3ip: unassignedint: YESbr: unset
+
+====Routing Table====
+show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is not set
+
+      10.0.0.0/24 is subnetted, 1 subnets
+D        10.30.7.0 [90/3584] via 100.1.45.5, 00:44:55, GigabitEthernet0/2
+                   [90/3584] via 100.1.34.3, 00:44:55, GigabitEthernet0/1
+      100.0.0.0/8 is variably subnetted, 15 subnets, 2 masks
+D        100.1.1.0/24 [90/3584] via 100.1.45.5, 00:44:55, GigabitEthernet0/2
+                      [90/3584] via 100.1.34.3, 00:44:55, GigabitEthernet0/1
+D        100.1.2.0/24 [90/3328] via 100.1.34.3, 00:59:40, GigabitEthernet0/1
+D        100.1.3.0/24 [90/3072] via 100.1.34.3, 01:04:55, GigabitEthernet0/1
+C        100.1.4.0/24 is directly connected, GigabitEthernet0/0
+L        100.1.4.1/32 is directly connected, GigabitEthernet0/0
+D        100.1.5.0/24 [90/3072] via 100.1.45.5, 00:44:55, GigabitEthernet0/2
+D        100.1.6.0/24 [90/3328] via 100.1.45.5, 00:44:55, GigabitEthernet0/2
+D        100.1.12.0/24 [90/3328] via 100.1.34.3, 00:44:55, GigabitEthernet0/1
+D        100.1.16.0/24 [90/3328] via 100.1.45.5, 00:44:55, GigabitEthernet0/2
+D        100.1.23.0/24 [90/3072] via 100.1.34.3, 01:06:18, GigabitEthernet0/1
+C        100.1.34.0/24 is directly connected, GigabitEthernet0/1
+L        100.1.34.4/32 is directly connected, GigabitEthernet0/1
+C        100.1.45.0/24 is directly connected, GigabitEthernet0/2
+L        100.1.45.4/32 is directly connected, GigabitEthernet0/2
+D        100.1.56.0/24 [90/3072] via 100.1.45.5, 00:44:55, GigabitEthernet0/2
+show run | include hostname
+hostname R5
+R5#
+====Specification====
+show version
+Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.7(3)M3, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Wed 01-Aug-18 16:45 by prod_rel_team
+
+
+ROM: Bootstrap program is IOSv
+
+R5 uptime is 1 hour, 46 minutes
+System returned to ROM by reload
+System image file is "flash0:/vios-adventerprisek9-m"
+Last reload reason: Unknown reason
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco IOSv (revision 1.0) with  with 460017K/62464K bytes of memory.
+Processor board ID 9TIDQ8JEV7IYS5FG5H5M7
+4 Gigabit Ethernet interfaces
+DRAM configuration is 72 bits wide with parity disabled.
+256K bytes of non-volatile configuration memory.
+2097152K bytes of ATA System CompactFlash 0 (Read/Write)
+0K bytes of ATA CompactFlash 1 (Read/Write)
+1024K bytes of ATA CompactFlash 2 (Read/Write)
+0K bytes of ATA CompactFlash 3 (Read/Write)
+
+
+
+Configuration register is 0x0
+====Interfaces====
+show: Interfaceip: IP-Addressint: OK?br: Method
+
+show: GigabitEthernet0/0ip: 100.1.5.1int: YESbr: manual
+
+show: GigabitEthernet0/1ip: 100.1.56.5int: YESbr: manual
+
+show: GigabitEthernet0/2ip: 100.1.45.5int: YESbr: manual
+
+show: GigabitEthernet0/3ip: unassignedint: YESbr: unset
+
+====Routing Table====
+show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is not set
+
+      10.0.0.0/24 is subnetted, 1 subnets
+D        10.30.7.0 [90/3328] via 100.1.56.6, 00:44:56, GigabitEthernet0/1
+      100.0.0.0/8 is variably subnetted, 15 subnets, 2 masks
+D        100.1.1.0/24 [90/3328] via 100.1.56.6, 00:44:56, GigabitEthernet0/1
+D        100.1.2.0/24 [90/3584] via 100.1.56.6, 00:45:01, GigabitEthernet0/1
+                      [90/3584] via 100.1.45.4, 00:45:01, GigabitEthernet0/2
+D        100.1.3.0/24 [90/3328] via 100.1.45.4, 00:45:01, GigabitEthernet0/2
+D        100.1.4.0/24 [90/3072] via 100.1.45.4, 00:45:01, GigabitEthernet0/2
+C        100.1.5.0/24 is directly connected, GigabitEthernet0/0
+L        100.1.5.1/32 is directly connected, GigabitEthernet0/0
+D        100.1.6.0/24 [90/3072] via 100.1.56.6, 00:44:56, GigabitEthernet0/1
+D        100.1.12.0/24 [90/3328] via 100.1.56.6, 00:45:01, GigabitEthernet0/1
+D        100.1.16.0/24 [90/3072] via 100.1.56.6, 00:44:56, GigabitEthernet0/1
+D        100.1.23.0/24 [90/3328] via 100.1.45.4, 00:45:01, GigabitEthernet0/2
+D        100.1.34.0/24 [90/3072] via 100.1.45.4, 00:45:01, GigabitEthernet0/2
+C        100.1.45.0/24 is directly connected, GigabitEthernet0/2
+L        100.1.45.5/32 is directly connected, GigabitEthernet0/2
+C        100.1.56.0/24 is directly connected, GigabitEthernet0/1
+L        100.1.56.5/32 is directly connected, GigabitEthernet0/1
+show run | include hostname
+hostname R6
+R6#
+====Specification====
+show version
+Cisco IOS Software, IOSv Software (VIOS-ADVENTERPRISEK9-M), Version 15.7(3)M3, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Wed 01-Aug-18 16:45 by prod_rel_team
+
+
+ROM: Bootstrap program is IOSv
+
+R6 uptime is 1 hour, 48 minutes
+System returned to ROM by reload
+System image file is "flash0:/vios-adventerprisek9-m"
+Last reload reason: Unknown reason
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco IOSv (revision 1.0) with  with 460017K/62464K bytes of memory.
+Processor board ID 9IT3N0QSMJA5H27VQ1BXP
+4 Gigabit Ethernet interfaces
+DRAM configuration is 72 bits wide with parity disabled.
+256K bytes of non-volatile configuration memory.
+2097152K bytes of ATA System CompactFlash 0 (Read/Write)
+0K bytes of ATA CompactFlash 1 (Read/Write)
+1024K bytes of ATA CompactFlash 2 (Read/Write)
+0K bytes of ATA CompactFlash 3 (Read/Write)
+
+
+
+Configuration register is 0x0
+====Interfaces====
+show: Interfaceip: IP-Addressint: OK?br: Method
+
+show: GigabitEthernet0/0ip: 100.1.6.1int: YESbr: manual
+
+show: GigabitEthernet0/1ip: 100.1.56.6int: YESbr: manual
+
+show: GigabitEthernet0/2ip: 100.1.16.6int: YESbr: manual
+
+show: GigabitEthernet0/3ip: unassignedint: YESbr: unset
+
+====Routing Table====
+show ip route
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       a - application route
+       + - replicated route, % - next hop override, p - overrides from PfR
+
+Gateway of last resort is not set
+
+      10.0.0.0/24 is subnetted, 1 subnets
+D        10.30.7.0 [90/3072] via 100.1.16.1, 00:49:08, GigabitEthernet0/2
+      100.0.0.0/8 is variably subnetted, 15 subnets, 2 masks
+D        100.1.1.0/24 [90/3072] via 100.1.16.1, 00:49:08, GigabitEthernet0/2
+D        100.1.2.0/24 [90/3328] via 100.1.16.1, 00:49:08, GigabitEthernet0/2
+D        100.1.3.0/24 [90/3584] via 100.1.56.5, 00:45:17, GigabitEthernet0/1
+                      [90/3584] via 100.1.16.1, 00:45:17, GigabitEthernet0/2
+D        100.1.4.0/24 [90/3328] via 100.1.56.5, 00:45:17, GigabitEthernet0/1
+D        100.1.5.0/24 [90/3072] via 100.1.56.5, 00:45:32, GigabitEthernet0/1
+C        100.1.6.0/24 is directly connected, GigabitEthernet0/0
+L        100.1.6.1/32 is directly connected, GigabitEthernet0/0
+D        100.1.12.0/24 [90/3072] via 100.1.16.1, 00:49:08, GigabitEthernet0/2
+C        100.1.16.0/24 is directly connected, GigabitEthernet0/2
+L        100.1.16.6/32 is directly connected, GigabitEthernet0/2
+D        100.1.23.0/24 [90/3328] via 100.1.16.1, 00:45:17, GigabitEthernet0/2
+D        100.1.34.0/24 [90/3328] via 100.1.56.5, 00:45:17, GigabitEthernet0/1
+D        100.1.45.0/24 [90/3072] via 100.1.56.5, 00:45:19, GigabitEthernet0/1
+C        100.1.56.0/24 is directly connected, GigabitEthernet0/1
+L        100.1.56.6/32 is directly connected, GigabitEthernet0/1

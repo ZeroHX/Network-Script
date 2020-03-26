@@ -22,13 +22,18 @@ def get_routers(filename):
 
 
 ip_count = 1
-for ip in get_routers()['device']:
-    router = telnet_router.TN_ROUTER(ip, '', 'cisco', 'class')
-    router.authen()
-    router.disable_pause()
+for router in get_routers('routers.json'):
+    # router = telnet_router.TN_ROUTER(r['device'], '', 'cisco', 'class')
+    # router.authen()
+    # router.disable_pause()
+
     device_name = router.get_device_name()
-    router.change_hostname(device_name)
-    router.change_password('cisco%s'%ip_count)
-    print(router.get_device_name())     #new hostname
-    router.terminate()
+    print("starting config??? %s"%device_name)
+    router.change_hostname(device_name+'s')
+    print("New hostname :",router.get_device_name())     #new hostname
+    new_pass = 'cisco%d'%ip_count
+    router.change_password(new_pass)
+    print(new_pass)
+    print("Change password.")     #new hostname
+    # router.terminate()
     ip_count += 1
