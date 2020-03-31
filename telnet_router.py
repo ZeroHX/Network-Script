@@ -15,31 +15,31 @@ class TN_ROUTER:
     use instead of telnetlib.Telnet class encapsulate a lot of config commands to methods
     make communicate with telnet device much more comfortable + more reusability
     """
-    
+
     #this attribute is the mark in begining of the line to check terminal mode
-    mark = {"user":b'>', "priv":b'#', 'conf t':b'#'}    
-    
+    mark = {"user":b'>', "priv":b'#', 'conf t':b'#'}
+
     def __init__(self, device, username, password, en_password):
         """initialize the TN_ROUTER object"""
-        
+
         #Pre-Configuration
         self.device = device
         self.username = username
         self.password = password
         self.en_password = en_password
         self.status = "user"
-        
+
         #Connect to device
         print("Connecting to ", self.device)
         self.tn = telnetlib.Telnet(self.device)
         print("Connected.")
-        
+
         #Authentication method
         self.authen()
 
         #set terminal lenth to 0 method
         self.disable_pause()
-        
+
         #get device hostname by get_device_name method
         self.hostname = self.get_device_name()
         print(self.hostname)
@@ -54,16 +54,16 @@ class TN_ROUTER:
         Use instead of read_until method. This method will read actually character automatically.
         and make router ready for new write command.
         """
-        return self.tn.read_until(TN_ROUTER.mark[self.status]) 
+        return self.tn.read_until(TN_ROUTER.mark[self.status])
 
     def strip_mark(self, message):
-        """ 
+        """
         Strip string with hostname and mark when you use read_until at the end of txt
         use to formatting output string
         """
         return message.rstrip(self.hostname + TN_ROUTER.mark[self.status].decode())
 
-        def check_change_mode(self, mode):
+    def check_change_mode(self, mode):
         """ Check that CLI is in specificed mode if not, change mode."""
         if self.status != mode:
             #This terminal is in lower mode than the new mode
@@ -98,7 +98,7 @@ class TN_ROUTER:
         self.read_mark()
         self.write_command("terminal length 0")
         print("Disable pause successful.")
-    
+
     @staticmethod
     def save_as_txt(data, filename):
         """ Save data as txt file """
@@ -139,16 +139,16 @@ class TN_ROUTER:
         print("show hostname by running config . . .")
         #show running config only line that has 'hostname' in it to get hostname
         self.write_command('show run | include hostname')
-        #seperate hostname from output string 
+        #seperate hostname from output string
         name = self.read_mark().decode('utf-8').split('\n')[-1][:-1]
         print("hostname is", name)
-        #prepare for another method to read_until again 
+        #prepare for another method to read_until again
         self.write_command('')
         return name
 
     def get_routing_table(self):
         """ return routing table of this device ass string """
-        self.check_change_mode('priv')        
+        self.check_change_mode('priv')
         self.read_mark()
         print("show ip route . . .")
         #show routing table by 'show ip route' command
@@ -156,7 +156,7 @@ class TN_ROUTER:
         #seperate routing table from output string
         table = self.strip_mark(self.read_mark().decode('utf-8'))
         return table
-    
+
     def get_router_spec(self):
         """ return router specification as string"""
         self.check_change_mode('priv')
@@ -169,14 +169,26 @@ class TN_ROUTER:
         self.write_command('')
         return version
 
+    def get_interface_summary(self):
+        """ return router interface summary as string"""
+        self.check_change_mode('priv')
+        print("show interface summary . . .")
+        self.read_mark()
+        self.write_command('show interface summary')
+        print("show interface summary successful.")
+        #seperate router interface summary from output string
+        summary = self.strip_mark(self.read_mark().decode('utf-8'))
+        self.write_command('')
+        return summary
+
     def get_router_interfaces(self):
-        """ 
+        """
         return router interfaces as list of dict
         format :
         [
             {
-            'Interface':'GigabitEthernet0/0/0', 
-            'IP-Address':'127.0.0.1', 
+            'Interface':'GigabitEthernet0/0/0',
+            'IP-Address':'127.0.0.1',
             'OK?':'Yes',
             'Method':'unset',
             'Status':'up',
@@ -196,11 +208,11 @@ class TN_ROUTER:
         data = [row.split() for row in interfaces[2:-1:]]
         interfaces_list = [{col_name[col_no]:data[row_no][col_no] for col_no in range(len(col_name))}\
              for row_no in range(len(data))]
-        
+
         self.write_command()
-        
+
         return interfaces_list
-    
+
     def get_connected_network(self):
         """
         return list of neighbour network as list of dict (used in eigrp auto config)
@@ -221,7 +233,7 @@ class TN_ROUTER:
         connected = connected[2::]
         network_list = [{'network_address':line.split()[1].split('/')[0], \
             'subnet_mask':int(line.split()[1].split('/')[1])} for line in connected]
-        
+
         self.write_command()
         return network_list
 
@@ -293,7 +305,7 @@ class TN_ROUTER:
         print("show running-config successful.")
         running_config = self.read_mark().decode('utf-8')
         print("saving text file . . .")
-        
+
         #Generate auto-filename if user not entering the filename
         if not filename:
             filename = "RunningConfig_%s.txt"%self.device
@@ -314,5 +326,5 @@ class TN_ROUTER:
         TN_ROUTER.save_as_txt(running_config, filename)
         print("saved.")
 
-    
+
 

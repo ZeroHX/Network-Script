@@ -7,9 +7,9 @@ def get_routers(filename):
     format:
     [
         {
-            "device":"127.0.0.1", 
-            "username":"MarinePA", 
-            "password":"cisco", 
+            "device":"127.0.0.1",
+            "username":"MarinePA",
+            "password":"cisco",
             "en_password":"class"
         }, ...
     ]
@@ -20,7 +20,7 @@ def get_routers(filename):
     # print("Addresses :" + str(add_list))
     routers = [telnet_router.TN_ROUTER(router['device'], router['username'], \
          router['password'], router['en_password']) for router in add_list]
-    
+
     return routers
 
 def get_routers_info():
@@ -30,7 +30,8 @@ def get_routers_info():
     #get routers infomation by getter method of TN_ROUTER
     routers_info_list = [\
         {'name':router.get_device_name(), 'spec':router.get_router_spec(), \
-            'interface':router.get_router_interfaces(), 'routing table':router.get_routing_table()} \
+            'interface':router.get_router_interfaces(), 'routing table':router.get_routing_table(), \
+                'summary':router.get_interface_summary()}\
         for router in routers]
     data = ""
     #formating into string and save to text file
@@ -39,10 +40,11 @@ def get_routers_info():
         data += router_info['spec'] + '\n====Interfaces====\n'
         data += '\n'.join([''.join([str(k) + ": " + interface[k] for k in interface]) + '\n' \
             for interface in router_info['interface']]) + '\n====Routing Table====\n'
-        data += router_info['routing table'] + '\n'
-    
+        data += router_info['routing table'] + '\n====Interfaces Summary===='
+        data += router_info['summary']
+
     with open('routers_info.txt', 'w') as text_file:
         text_file.write(data)
-    
+
 
 get_routers_info()
